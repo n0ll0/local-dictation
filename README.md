@@ -1,7 +1,7 @@
 ﻿# Local dictation
 
 Push-to-talk dictation for Windows that is **fully local**. Hold a hotkey,
-speak, let go — the transcript is transcribed on your own CPU and pasted into
+speak, let go. The transcript is transcribed on your own CPU and pasted into
 whatever text field was focused when you started talking. Audio never leaves
 the machine.
 
@@ -21,7 +21,7 @@ of your screen tells you what the transcription is doing.
   through [Faster-Whisper](https://github.com/SYSTRAN/faster-whisper) in
   int8 on plain CPU.
 - **Any text field.** Works system-wide: terminals, editors, browsers, chat
-  apps — wherever a caret is.
+  apps. Wherever a caret is.
 - **Unobtrusive overlay.** A circle that swells with your voice while
   recording, spins while transcribing, settles when delivered. It never takes
   focus, sits outside the taskbar and Alt+Tab, and clicks pass through it.
@@ -30,8 +30,13 @@ of your screen tells you what the transcription is doing.
 
 ## Quick start
 
-Requirements: **Windows 10/11**, **Python 3.10–3.12** or `uv`, a microphone.
-The default model download is **~460 MB**.
+If the command line is not your thing, follow
+[INSTALL.md](INSTALL.md). It walks the same process with double-clicks: a
+`setup.cmd` button creates the environment, `start.cmd` starts dictating,
+and `add-to-startup.vbs` optionally hooks it to logon.
+
+For everyone else: requirements are **Windows 10/11**, **Python 3.10 to
+3.12**, a microphone. The default model download is **~460 MB**.
 
 ```bat
 git clone https://github.com/<you>/local-dictation.git
@@ -86,7 +91,7 @@ hotkey, says so in the log, and exits.
 ## Which model, and why
 
 Default is
-**TalTechNLP/whisper-large-v3-turbo-et-verbatim** — a Whisper fine-tune
+**TalTechNLP/whisper-large-v3-turbo-et-verbatim**, a Whisper fine-tune
 from [Tallinn University of Technology](https://taltech.ee/en/et/)
 (TalTechNLP, ~1400 h of Estonian), used in their own Estonian ASR work.
 Measured word error rate on 60 s of Estonian broadcast speech on this
@@ -98,18 +103,18 @@ machine (int8, CPU):
 | `small` (OpenAI) | 67.5% | 10.8 s | 5.5× realtime |
 | **TalTech turbo-et** (default) | **24.6%** | 28.9 s | 2.1× realtime |
 
-Vanilla Whisper is not usable for Estonian — `base` got roughly **five words
+Vanilla Whisper is not usable for Estonian. `base` got roughly **five words
 in six wrong**. The fine-tune is a ~3× error reduction against `small`, while
 still transcribing English correctly, so mixed Estonian/English dictation
 works.
 
 The tradeoff is real: 2.1× realtime means a 5-second utterance takes ~2.3 s
-to transcribe — that is what the spinning "transcribing" state is for. If you
+to transcribe. That is what the spinning "transcribing" state is for. If you
 prefer speed to accuracy, set `"model": "base"` in `config.json`.
 
 If you mostly dictate another language, any faster-whisper model id works the
 same way (check the [HF model list](https://huggingface.co/models?search=whisper)
-for fine-tunes of your language — most languages have a stronger community
+for fine-tunes of your language. Most languages have a stronger community
 model than vanilla Whisper).
 
 To reproduce the table:
@@ -139,17 +144,18 @@ the built-in default.
 }
 ```
 
-- `language` — `"auto"` detects per utterance. Set `"et"` or `"en"` to pin it
-  when you mostly dictate one language (pinning skips Whisper's
-  language-detection pass, roughly 2× faster).
-- `overlay_position` — `"screen-bottom"` (default) centres the circle on the
-  whole display; `"caret"` floats above the window you are typing in instead.
-- `diameter` — overlay circle diameter in pixels.
-- `overlay_preview` — live (approximate) transcript in the overlay. Off by
-  default because it delays the final paste; see *Notes and limits*.
-- `input_device` — `null` uses the system default. Set it to an exact device
-  name from `--selftest` if dictation picks the wrong microphone (a
-  stereo-mix device shows up as the default on some machines).
+- `language` is `"auto"` by default, which detects each utterance. Pin it
+  to `"et"` or `"en"` when you mostly dictate one language. Pinning skips
+  Whisper's language-detection pass, roughly 2× faster.
+- `overlay_position` puts the circle at `"screen-bottom"`, centred on the
+  whole display, or `"caret"`, floating above the window you are typing in.
+- `diameter` is the overlay circle's size in pixels.
+- `overlay_preview` set to true shows a live approximate transcript in the
+  overlay. It is off by default because it delays the final paste; see
+  *Notes and limits*.
+- `input_device` set to null uses the system default. If dictation picks the
+  wrong microphone (a stereo-mix device shows up as the default on some
+  machines), set it to an exact device name from `--selftest`.
 
 Command-line overrides: `--model`, `--language`, `--device`, `--config`.
 
@@ -170,7 +176,7 @@ so you can see the visual language without a microphone.
 
 - **Not admin.** The hotkey uses `RegisterHotKey` plus a low-level keyboard
   hook, neither of which needs elevation. Injection uses `SendInput`, which
-  is blocked by UIPI if the target runs elevated — the tool logs a failure
+  is blocked by UIPI if the target runs elevated. The tool logs a failure
   rather than pretending it worked.
 - **Per-pixel alpha may be unavailable.** The soft-edged blob needs
   `UpdateLayeredWindow`, which fails on some Windows builds and graphics
@@ -191,7 +197,7 @@ so you can see the visual language without a microphone.
 
 | Path | What |
 |---|---|
-| `dictate.py` | hotkeys, capture, transcription, paste — the app |
+| `dictate.py` | hotkeys, capture, transcription, paste. The app |
 | `feedback.py` | the overlay: blob, preview, window |
 | `design/` | spike scripts, tests, the model benchmark, rendered frames |
 | `background.cmd` / `start.cmd` / `startup.vbs` | hidden / console / logon launchers |
@@ -203,14 +209,14 @@ on any drive.
 ## Credits
 
 - [TalTechNLP/whisper-large-v3-turbo-et-verbatim](https://huggingface.co/TalTechNLP/whisper-large-v3-turbo-et-verbatim)
-  — the Estonian Whisper fine-tune, by the TalTech NLP group.
+  is the Estonian Whisper fine-tune, by the TalTech NLP group.
 - [Faster-Whisper](https://github.com/SYSTRAN/faster-whisper) /
-  [CTranslate2](https://github.com/OpenNMT/CTranslate2) — the inference engine.
-- [OpenAI Whisper](https://github.com/openai/whisper) — the base models.
-- [sounddevice](https://python-sounddevice.readthedocs.io/) — audio capture.
+  [CTranslate2](https://github.com/OpenNMT/CTranslate2) is the inference engine.
+- [OpenAI Whisper](https://github.com/openai/whisper) is the base.
+- [sounddevice](https://python-sounddevice.readthedocs.io/) is audio capture.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The model weights follow the licenses published
+MIT. See [LICENSE](LICENSE). The model weights follow the licenses published
 by their upstream authors (Whisper is MIT; check the model card for any
 dataset restrictions).
