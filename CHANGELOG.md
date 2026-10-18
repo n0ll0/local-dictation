@@ -1,3 +1,17 @@
+# v0.1.1 — double-click install
+
+For people who do not use terminals, the install is now the same process
+driven by scripts instead of commands.
+
+- `setup.cmd`, double-clicked from the downloaded folder, creates the
+  Python environment and installs the packages, and skips anything already
+  done, so it is safe to run again.
+- `add-to-startup.vbs`, double-clicked, adds the hidden-at-logon shortcut
+  and shows a popup that tells you where it wrote it and how to undo.
+- [INSTALL.md](INSTALL.md) walks the whole install, Python download to first
+  spoken words, as numbered double-clicks, with a troubleshooting section
+  in plain sentences.
+
 # v0.1.0 — first public release
 
 Push-to-talk dictation for Windows that is fully local: hold a hotkey, speak,
