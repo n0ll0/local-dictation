@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Runtime environment — everything lives beside the checkout, never in git
+.venv/
+venv/
+uv-cache/
+
+# Model cache (~460 MB, downloaded on first run)
+huggingface/
+
+# Local configuration and logs
+config.json
+*.log
+_e2e.log
+*.wav
+
+# Personal desktop screenshots kept out of the public repo; the rendered
+# overlay frames in design/overlay-frames/ are checked in.
+design/desktop*.png
+design/plain.png
+design/live.png
