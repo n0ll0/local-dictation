@@ -1,0 +1,18 @@
+# Normalize: everything text, committed as LF, checked out per-platform
+* text=auto
+
+# Windows launchers keep CRLF so cmd.exe never chokes on them
+*.cmd text eol=crlf
+*.vbs text eol=crlf
+*.bat text eol=crlf
+
+# Python, markdown, config stay LF
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.gitignore text eol=lf
+
+# Binaries — never diff or normalize these
+*.png binary
+*.wav binary

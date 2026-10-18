@@ -8,6 +8,8 @@ the machine.
 No cloud, no API keys, no per-minute charges. A Fluent-ish blob at the bottom
 of your screen tells you what the transcription is doing.
 
+![The overlay in its listening state](design/overlay-frames/listening-loud.png)
+
 ## Features
 
 - **Push-to-talk and toggle on one key.** Hold `Ctrl+Alt+T` to dictate short
